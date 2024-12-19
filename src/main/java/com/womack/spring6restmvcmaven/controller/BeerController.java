@@ -6,13 +6,13 @@ import com.womack.spring6restmvcmaven.model.BeerStyle;
 import com.womack.spring6restmvcmaven.services.BeerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -36,7 +36,7 @@ public class BeerController {
 
     @GetMapping(value = BEER_PATH)
     //if not specify @RequestParam("name"), it will default use param name "beerName"
-    public List<BeerDTO> getAllBeers(@RequestParam(required = false) String beerName,
+    public Page<BeerDTO> getAllBeers(@RequestParam(required = false) String beerName,
                                      @RequestParam(required = false) BeerStyle beerStyle,
                                      @RequestParam(required = false) Boolean showInventory,
                                      @RequestParam(required = false) Integer pageNumber,
@@ -64,7 +64,6 @@ public class BeerController {
         if (beerService.patchBeerById(beerId, beer).isEmpty()) {
             throw new NotFoundException("Beer with id " + beerId + " not found");
         }
-        ;
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

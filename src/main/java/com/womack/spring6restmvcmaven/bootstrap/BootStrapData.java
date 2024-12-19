@@ -79,6 +79,7 @@ public class BootStrapData implements CommandLineRunner {
             Customer customer1 = Customer.builder()
                     .firstName("Michael")
                     .lastName("Womack")
+                    .email("mike@yahoo.com")
                     .createDate(LocalDateTime.now())
                     .updateDate(LocalDateTime.now())
                     .build();

@@ -13,6 +13,7 @@ public class CustomerDTO {
     private String firstName;
     private String lastName;
     private Integer version;
+    private String email;
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
 }

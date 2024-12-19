@@ -1,9 +1,6 @@
 package com.womack.spring6restmvcmaven.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -11,7 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Getter
@@ -20,37 +17,28 @@ import java.util.UUID;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Customer {
-
+public class BeerOrder {
     @Id
     @UuidGenerator
     @JdbcTypeCode(SqlTypes.CHAR)
     @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     private UUID id;
 
-    @NotNull
-    @NotBlank
-    @Column(length = 30)
-    @Size(max = 30)
-    private String firstName;
-
-    @NotNull
-    @NotBlank
-    @Column(length = 30)
-    @Size(max = 30)
-    private String lastName;
-
-    @Column(length = 30)
-    @Size(max = 30)
-    private String email;
-
     @Version
-    private Integer version;
+    private Long version;
 
     @CreationTimestamp
-    private LocalDateTime createDate;
+    @Column(updatable = false)
+    private Timestamp createdDate;
 
     @UpdateTimestamp
-    private LocalDateTime updateDate;
+    private Timestamp lastModifiedDate;
+
+    public boolean isNew() {return this.id == null;}
+
+    private String customerRef;
+
+    @ManyToOne
+    private Customer customer;
 
 }
