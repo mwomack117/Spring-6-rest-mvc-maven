@@ -13,11 +13,12 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@Builder
 @Entity
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class BeerOrderLine {
+public class BeerOrderShipment {
+
     @Id
     @UuidGenerator
     @JdbcTypeCode(SqlTypes.CHAR)
@@ -27,21 +28,15 @@ public class BeerOrderLine {
     @Version
     private Long version;
 
+    @OneToOne
+    private BeerOrder beerOrder;
+
+    private String trackingNumber;
+
     @CreationTimestamp
     @Column(updatable = false)
     private Timestamp createdDate;
 
     @UpdateTimestamp
     private Timestamp lastModifiedDate;
-
-    public boolean isNew() {return this.id == null;}
-
-    private Integer orderQuantity;
-    private Integer quantityAllocated;
-
-    @ManyToOne
-    private BeerOrder beerOrder;
-
-    @ManyToOne
-    private Beer beer;
 }

@@ -9,15 +9,18 @@ import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
 @Setter
-@Builder
 @Entity
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class BeerOrderLine {
+public class Category {
+
     @Id
     @UuidGenerator
     @JdbcTypeCode(SqlTypes.CHAR)
@@ -34,14 +37,16 @@ public class BeerOrderLine {
     @UpdateTimestamp
     private Timestamp lastModifiedDate;
 
-    public boolean isNew() {return this.id == null;}
+    private String description;
 
-    private Integer orderQuantity;
-    private Integer quantityAllocated;
+    @Builder.Default
+    @ManyToMany
+    @JoinTable(name = "beer_category",
+            joinColumns = @JoinColumn(name = "category_id"),
+            inverseJoinColumns = @JoinColumn(name = "beer_id"))
+    private Set<Beer> beers = new HashSet<>();
 
-    @ManyToOne
-    private BeerOrder beerOrder;
 
-    @ManyToOne
-    private Beer beer;
 }
+
+
